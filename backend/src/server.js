@@ -1,4 +1,3 @@
-// src/server.js (Updated)
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -8,6 +7,7 @@ import connectDB from "./config/db.js";
 // Import modular routes
 import authRoutes from "./modules/auth/auth.routes.js";
 import hotelRoutes from "./modules/hotel/hotel.routes.js";
+import userRoutes from "./modules/user/user.routes.js";
 
 dotenv.config();
 
@@ -21,6 +21,7 @@ app.use(cookieParser());
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/hotel", hotelRoutes);
+app.use("/api/user", userRoutes); 
 
 // DB + Server
 const startServer = async () => {
