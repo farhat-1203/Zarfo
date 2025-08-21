@@ -1,0 +1,55 @@
+// src/modules/hotel/hotel.model.js
+import mongoose from 'mongoose';
+
+const foodSchema = new mongoose.Schema({
+  hotelId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User', // Reference the User model for the hotel user
+    required: true,
+  },
+  photo: {
+    type: String, // URL of the food photo
+    required: true,
+  },
+  name: {
+    type: String,
+    required: true,
+  },
+  category: {
+    type: String,
+    enum: ['veg', 'non-veg', 'sweet', 'spicy', 'other'],
+    required: true,
+  },
+  prepTime: {
+    type: Date,
+    required: true,
+  },
+  expiryTime: {
+    type: Date,
+    required: true,
+  },
+  quantity: {
+    type: Number, // in kg or portions
+    required: true,
+  },
+  sellingPrice: {
+    type: Number,
+    default: null, // Can be null for donations
+  },
+  status: {
+    type: String,
+    enum: ['listed_for_sale', 'listed_for_donation', 'sold', 'donated', 'wasted'],
+    default: 'listed_for_sale',
+  },
+  decision: {
+    type: String,
+    enum: ['sell', 'donate'],
+    default: 'sell', // AI's initial decision
+  },
+  isAvailable: {
+    type: Boolean,
+    default: true,
+  }
+}, { timestamps: true });
+
+export default mongoose.model('Food', foodSchema);
