@@ -8,6 +8,9 @@ import connectDB from "./config/db.js";
 import authRoutes from "./modules/auth/auth.routes.js";
 import hotelRoutes from "./modules/hotel/hotel.routes.js";
 import userRoutes from "./modules/user/user.routes.js";
+import orderRoutes from "./modules/order/order.routes.js";
+import deliveryRoutes from "./modules/delivery/delivery.routes.js";
+import workerRoutes from "./modules/worker/worker.routes.js";
 
 dotenv.config();
 
@@ -22,7 +25,9 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/hotel", hotelRoutes);
 app.use("/api/user", userRoutes); 
-
+app.use("/api/order", orderRoutes);
+app.use("/api/delivery", deliveryRoutes);
+app.use("/api/worker", workerRoutes);
 // DB + Server
 const startServer = async () => {
   await connectDB();
