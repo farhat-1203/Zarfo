@@ -12,10 +12,15 @@
   "dependencies": {
     "@headlessui/react": "^2.2.7",
     "@heroicons/react": "^2.2.0",
+    "@radix-ui/react-slot": "^1.2.3",
     "@tailwindcss/vite": "^4.1.12",
+    "class-variance-authority": "^0.7.1",
+    "jwt-decode": "^4.0.0",
     "lucide-react": "^0.541.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-router-dom": "^7.9.4",
+    "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.12"
   },
   "devDependencies": {

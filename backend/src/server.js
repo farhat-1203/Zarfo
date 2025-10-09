@@ -10,7 +10,7 @@ import hotelRoutes from "./modules/hotel/hotel.routes.js";
 import userRoutes from "./modules/user/user.routes.js";
 import orderRoutes from "./modules/order/order.routes.js";
 import deliveryRoutes from "./modules/delivery/delivery.routes.js";
-import workerRoutes from "./modules/worker/worker.routes.js";
+import workerRoutes from "./modules/nightworker/worker.routes.js";
 
 dotenv.config();
 
