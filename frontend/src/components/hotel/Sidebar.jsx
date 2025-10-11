@@ -1,12 +1,22 @@
 import { X, Home, Utensils, BarChart3 } from "lucide-react";
 import { motion } from "framer-motion";
 
-export function Sidebar({ open, onClose }) {
+export function Sidebar({ open, onClose, setActivePage, openAddModal }) {
   const menuItems = [
-    { name: "Dashboard", icon: <Home size={18} /> },
-    { name: "Food Listings", icon: <Utensils size={18} /> },
-    { name: "Analytics", icon: <BarChart3 size={18} /> },
+    { name: "Dashboard", icon: <Home size={18} />, action: "dashboard" },
+    { name: "Food Listings", icon: <Utensils size={18} />, action: "foodListings" },
+    { name: "Delivery Tracking", icon: <Utensils size={18} />, action: "deliveryTracking" },
+    { name: "Add Food", icon: <BarChart3 size={18} />, action: "addFood" },
   ];
+
+  const handleClick = (action) => {
+    if (action === "addFood") {
+      openAddModal(true); // open modal directly
+    } else {
+      setActivePage(action); // change page
+    }
+    onClose(); // close sidebar after click
+  };
 
   return (
     <motion.aside
@@ -31,6 +41,7 @@ export function Sidebar({ open, onClose }) {
           {menuItems.map((item, idx) => (
             <div
               key={idx}
+              onClick={() => handleClick(item.action)}
               className="flex items-center gap-3 p-3 rounded-lg hover:bg-[var(--green-primary)] hover:text-[var(--bg-color)] transition cursor-pointer"
             >
               {item.icon}

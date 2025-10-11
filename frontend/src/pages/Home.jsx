@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { ThemeToggle } from "@/components/hotel/ThemeToggle";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function Home() {
   const navigate = useNavigate();

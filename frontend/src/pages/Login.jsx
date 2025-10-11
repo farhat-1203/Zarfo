@@ -1,20 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Mail, Lock, Eye, EyeOff, Loader2 } from "lucide-react";
-import { ThemeToggle } from "@/components/hotel/ThemeToggle";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import api from "@/lib/api";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, user} = useAuth();
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+
+// Redirect if already logged in
+useEffect(() => {
+  if (!loading && user) {
+    const role = user.role;
+    if (role === "admin") navigate("/admin/dashboard");
+    else if (role === "hotel") navigate("/hotel/dashboard");
+    else if (role === "robin") navigate("/robin/dashboard");
+    else if (role === "worker") navigate("/worker/dashboard");
+    else navigate("/user/dashboard");
+  }
+}, [user, loading]);
+
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });

@@ -1,33 +1,51 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { jwtDecode }  from "jwt-decode";
+import api from "@/lib/api";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem("zarfo_token") || null);
+  const [token, setToken] = useState(null);
+  const [loading, setLoading] = useState(true);
 
+  // On app load, try to refresh access token
   useEffect(() => {
-    if (token) {
-      const decoded = jwtDecode(token);
-      setUser({ ...decoded, token });
-    }
-  }, [token]);
+    const refresh = async () => {
+      try {
+        const { data } = await api.post("/auth/refresh"); // uses HttpOnly cookie
+        if (data?.accessToken && data?.user) {
+          localStorage.setItem("zarfo_token", data.accessToken);
+          setToken(data.accessToken);
+          setUser(data.user);
+        }
+      } catch (err) {
+        console.log("User not logged in");
+        setUser(null);
+        setToken(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    refresh();
+  }, []);
 
-  const login = (token, user) => {
-    localStorage.setItem("zarfo_token", token);
+  const login = (accessToken, user) => {
+    localStorage.setItem("zarfo_token", accessToken);
+    setToken(accessToken);
     setUser(user);
-    setToken(token);
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await api.post("/auth/logout"); // clears refresh token cookie
+    } catch {}
     localStorage.removeItem("zarfo_token");
     setUser(null);
     setToken(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider value={{ user, token, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
