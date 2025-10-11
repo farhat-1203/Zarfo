@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import User from "./auth.model.js";
 import { generateAccessToken, generateRefreshToken } from "../../utils/token.js";
 
-export const registerUser = async ({ name, email, password, role }) => {
+export const registerUser = async ({ name, email, password, role, address }) => {
   const existingUser = await User.findOne({ email });
   if (existingUser) throw new Error("User already exists");
 
@@ -13,10 +13,13 @@ export const registerUser = async ({ name, email, password, role }) => {
     email,
     password: hashedPassword,
     role,
+    address,
   });
 
   return user;
 };
+
+
 
 export const loginUser = async ({ email, password }) => {
   const user = await User.findOne({ email });
