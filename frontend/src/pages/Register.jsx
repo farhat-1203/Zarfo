@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ThemeToggle } from "@/components/hotel/ThemeToggle";
 import api from "@/lib/api";
 
 const roles = [
@@ -34,9 +35,11 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 to-white px-4">
-      <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-4 text-center text-emerald-700">Create your Zarfo Account</h2>
+    <div className="min-h-screen flex items-center justify-center bg-[var(--bg-color-light)] text-[var(--text-color)] px-4 transition-colors duration-300">
+      <div className="absolute top-4 right-4"><ThemeToggle /></div>
+
+      <div className="bg-[var(--card-bg)] p-8 rounded-2xl shadow-xl w-full max-w-md transition-colors duration-300">
+        <h2 className="text-2xl font-bold mb-4 text-center text-[var(--green-primary)]">Create your Zarfo Account</h2>
         {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -48,7 +51,7 @@ export default function Register() {
             name="role"
             value={form.role}
             onChange={handleChange}
-            className="w-full border rounded-md p-2 text-gray-600 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="w-full border rounded-md p-2 text-[var(--text-color)] focus:outline-none focus:ring-2 focus:ring-[var(--green-primary)]"
           >
             {roles.map((r) => (
               <option key={r.value} value={r.value}>
@@ -57,14 +60,14 @@ export default function Register() {
             ))}
           </select>
 
-          <Button className="w-full bg-emerald-600 hover:bg-emerald-700" disabled={loading}>
+          <Button className="w-full bg-[var(--green-primary)] hover:bg-[var(--green-dark)] text-white" disabled={loading}>
             {loading ? "Registering..." : "Register"}
           </Button>
         </form>
 
-        <p className="text-sm text-center mt-4 text-gray-600">
+        <p className="text-sm text-center mt-4 text-[var(--muted-text)]">
           Already have an account?{" "}
-          <span onClick={() => navigate("/login")} className="text-emerald-700 hover:underline cursor-pointer">
+          <span onClick={() => navigate("/login")} className="text-[var(--green-primary)] hover:underline cursor-pointer">
             Login
           </span>
         </p>
