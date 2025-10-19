@@ -1,6 +1,6 @@
 // src/modules/hotel/hotel.service.js
-import Food from './hotel.model.js';
-// import { getAIDecision } from '../ai/ai.service.js'; // Future integration
+import axios from "axios"; 
+import Food from "./hotel.model.js";
 
 export const addFoodListing = async (listingData, hotelId) => {
   if (listingData.quantity <= 0) {
@@ -17,8 +17,10 @@ export const addFoodListing = async (listingData, hotelId) => {
     ...listingData,
     hotelId,
     photo: photoBase64,
-    status: listingData.status || "listed_for_sale",
-    decision: listingData.decision || "sell",
+    status:
+      listingData.decision === "donate"
+        ? "listed_for_donation"
+        : "listed_for_sale",
   };
 
   const food = await Food.create(newListing);
@@ -32,28 +34,32 @@ export const getHotelListings = async (hotelId) => {
 
 export const getFoodListingById = async (listingId) => {
   const listing = await Food.findById(listingId);
-  if (!listing) {
-    throw new Error('Food listing not found.');
-  }
+  if (!listing) throw new Error("Food listing not found.");
   return listing;
 };
 
+// Function to call FastAPI endpoint for AI decision
 export const getAIDecision = async (foodData) => {
-  try {
-    const response = await axios.post("http://127.0.0.1:8000/predict", {
-      FoodName: foodData.name,
-      Category: foodData.category,
-      PrepDate: foodData.prepDate,
-      PrepTime: foodData.prepTime,
-      ExpiryDate: foodData.expiryDate,
-      ExpiryTime: foodData.expiryTime,
-      Quantity: foodData.quantity,
-      Price: foodData.sellingPrice || 0,
-    });
+  const FASTAPI_URL = process.env.FASTAPI_URL || "http://127.0.0.1:8000/predict";
 
+  try {
+    const payload = {
+      FoodName: foodData.FoodName,
+      Category: foodData.Category,
+      PrepDate: foodData.PrepDate,
+      PrepTime: foodData.PrepTime,
+      ExpiryDate: foodData.ExpiryDate,
+      ExpiryTime: foodData.ExpiryTime,
+      Quantity: foodData.Quantity,
+      Price: foodData.Price,
+    };
+
+    console.log("Sending payload to FastAPI:", payload);
+
+    const response = await axios.post(FASTAPI_URL, payload);
     return response.data;
   } catch (err) {
-    console.error("AI Prediction Error:", err.message);
+    console.error("AI Prediction Error:", err.response?.data || err.message);
     throw new Error("AI service failed to respond");
   }
 };
