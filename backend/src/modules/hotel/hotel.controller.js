@@ -3,18 +3,40 @@ import {
   addFoodListing,
   getHotelListings,
   getFoodListingById,
+  getAIDecision,
 } from "./hotel.service.js";
 
 export const addFood = async (req, res, next) => {
   try {
     const hotelId = req.user.id;
 
+    const prep = new Date(req.body.prepTime);
+    const expiry = new Date(req.body.expiryTime);
+
+    // Extract data for AI service
+    const aiInput = {
+      name: req.body.name,
+      category: req.body.category,
+      prepDate: prep.toISOString().split("T")[0],
+      prepTime: prep.toTimeString().slice(0, 5),
+      expiryDate: expiry.toISOString().split("T")[0],
+      expiryTime: expiry.toTimeString().slice(0, 5),
+      quantity: Number(req.body.quantity),
+      sellingPrice: Number(req.body.sellingPrice || 0),
+    };
+
+    // Call FastAPI to get prediction
+    const aiPrediction = await getAIDecision(aiInput);
+    console.log("AI Prediction:", aiPrediction);
+
     const listingData = {
       ...req.body,
+      decision: aiPrediction.decision || "sell",
+      sellingPrice: aiPrediction.suggested_price || req.body.sellingPrice,
       quantity: Number(req.body.quantity),
-      prepTime: new Date(req.body.prepTime),
-      expiryTime: new Date(req.body.expiryTime),
-      photo: req.file ? req.file.buffer : "", // raw buffer from upload
+      prepTime: prep,
+      expiryTime: expiry,
+      photo: req.file ? req.file.buffer : "",
     };
 
     const food = await addFoodListing(listingData, hotelId);
@@ -23,6 +45,7 @@ export const addFood = async (req, res, next) => {
     next(err);
   }
 };
+
 
 export const getMyListings = async (req, res, next) => {
   try {

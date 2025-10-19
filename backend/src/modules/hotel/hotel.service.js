@@ -37,3 +37,23 @@ export const getFoodListingById = async (listingId) => {
   }
   return listing;
 };
+
+export const getAIDecision = async (foodData) => {
+  try {
+    const response = await axios.post("http://127.0.0.1:8000/predict", {
+      FoodName: foodData.name,
+      Category: foodData.category,
+      PrepDate: foodData.prepDate,
+      PrepTime: foodData.prepTime,
+      ExpiryDate: foodData.expiryDate,
+      ExpiryTime: foodData.expiryTime,
+      Quantity: foodData.quantity,
+      Price: foodData.sellingPrice || 0,
+    });
+
+    return response.data;
+  } catch (err) {
+    console.error("AI Prediction Error:", err.message);
+    throw new Error("AI service failed to respond");
+  }
+};
