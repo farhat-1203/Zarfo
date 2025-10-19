@@ -104,14 +104,18 @@ export default function FoodListings() {
           <div className="flex justify-between items-start">
             <h3 className="text-base font-semibold text-[var(--text-color)]">{listing.name}</h3>
             <div className="text-right">
-              {listing.sellingPrice ? (
+              {listing.decision === "donate" ? (
                 <div className="flex items-center text-sm font-semibold text-[var(--green-primary)]">
                   <IndianRupee className="w-4 h-4 mr-1" />
-                  {listing.sellingPrice}
+                  0
                 </div>
               ) : (
-                <span className="text-sm text-[var(--muted-text)] italic">Donation</span>
+                <div className="flex items-center text-sm font-semibold text-[var(--green-primary)]">
+                  <IndianRupee className="w-4 h-4 mr-1" />
+                  {listing.sellingPrice ?? 0}
+                </div>
               )}
+
             </div>
           </div>
           {listing.description && (

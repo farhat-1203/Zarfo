@@ -47,16 +47,20 @@ export const addFood = async (req, res, next) => {
         console.log("AI Prediction:", aiPrediction);
 
         // Preparing listing data to be saved in DB
+        const decision = aiPrediction.decision?.toLowerCase() || "sell";
         const listingData = {
-            ...req.body,
-            decision: aiPrediction.decision?.toLowerCase() || "sell",
-            // Use suggested_price if available, otherwise fallback to the user-provided price
-            sellingPrice: aiPrediction.suggested_price || actualPrice, 
-            quantity: Number(req.body.quantity),
-            prepTime: prep,
-            expiryTime: expiry,
-            photo: req.file ? req.file.buffer : "",
+        ...req.body,
+        decision,
+        sellingPrice:
+            decision === "donate"
+            ? 0 // if donating, price is 0
+            : aiPrediction.suggested_price ?? actualPrice,  // use suggested price or actual price 
+        quantity: Number(req.body.quantity),
+        prepTime: prep,
+        expiryTime: expiry,
+        photo: req.file ? req.file.buffer : "",
         };
+
 
         const food = await addFoodListing(listingData, hotelId);
         res.status(201).json({ message: "Food listed successfully", food });
