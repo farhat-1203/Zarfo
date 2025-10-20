@@ -50,7 +50,6 @@ export default function CartPage({ cart, setCart, fetchFood }) {
   const placeOrder = async (item) => {
     try {
     const response = await api.post("/user/order/create", { foodId: item._id });
-      console.log("Order API response:", response.data);
       toast.success("Order placed successfully ✅");
       setCart((prev) => prev.filter((i) => i._id !== item._id));
       fetchFood();
