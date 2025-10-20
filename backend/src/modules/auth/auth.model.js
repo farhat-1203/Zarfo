@@ -10,6 +10,12 @@ const userSchema = new mongoose.Schema(
       enum: ["hotel", "user", "robin", "worker", "admin"],
       default: "user",
     },
+    address: {
+      houseNo: { type: String },
+      suburb: { type: String },
+      city: { type: String },
+      state: { type: String },
+    },
   },
   { timestamps: true }
 );

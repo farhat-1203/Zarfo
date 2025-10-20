@@ -4,17 +4,21 @@ import Food from './hotel.model.js';
 
 export const addFoodListing = async (listingData, hotelId) => {
   if (listingData.quantity <= 0) {
-    throw new Error('Quantity must be greater than zero.');
+    throw new Error("Quantity must be greater than zero.");
   }
 
-  // Future: Call AI service here to get a decision
-  // const decision = await getAIDecision(listingData);
+  // Convert uploaded image buffer to Base64
+  let photoBase64 = "";
+  if (listingData.photo && listingData.photo.length) {
+    photoBase64 = listingData.photo.toString("base64");
+  }
 
   const newListing = {
     ...listingData,
     hotelId,
-    // decision: decision.type,
-    // status: decision.type === 'sell' ? 'listed_for_sale' : 'listed_for_donation',
+    photo: photoBase64,
+    status: listingData.status || "listed_for_sale",
+    decision: listingData.decision || "sell",
   };
 
   const food = await Food.create(newListing);

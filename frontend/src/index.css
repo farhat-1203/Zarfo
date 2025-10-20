@@ -1,124 +1,42 @@
-@import "tailwindcss";/* src/index.css */
-/* src/index.css */
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Light Theme */
+:root {
+  --green-primary: #2e7d4d;
+  --green-dark: #1b5e20;
+  --green-light: #66bb6a;
 
-/* Define CSS variables for the light theme with a classy, modern natural palette */
-:root,
-body.theme-light {
-  --app-bg: #F0F4F8; /* Soft blue-gray */
-  --app-text: #212B36; /* Dark charcoal */
-  --card-bg: #FFFFFF; /* Pure white */
-  --card-text: #212B36; /* Dark charcoal */
-  --primary-color: #00A389; /* Teal green */
-  --secondary-color: #55606E; /* Muted gray */
-  --accent-color: #6C7A89; /* Slate gray */
-  --icon-bg: #E3F8F5; /* Light teal */
-  --secondary-button-border: #6C7A89; /* Slate gray */
-  --secondary-button-text: #6C7A89; /* Slate gray */
-  --footer-bg: #212B36; /* Dark charcoal */
-  --footer-text: #E3F8F5; /* Light teal */
-  --hover-bg: #E7EEF4; /* Lighter soft blue-gray */
-  --secondary-cta-hover: #F0F4F8;
+  --bg-color: #f9faf8;        /* Optional default bg */
+  --bg-color-light: #f1f3f6;  /* Main dashboard light grey */
+  --card-bg: #ffffff;          /* Card background white */
+
+  --text-color: #0f172a;
+  --muted-text: #64748b;
+
+  --accent-pink: #e4a2a6;
+  --accent-pink-dark: #d98287;
 }
 
-/* Define CSS variables for the dark theme with a classy, modern galaxy palette */
-body.theme-dark {
-  --app-bg: #0A0A1A; /* Deep space */
-  --app-text: #E8EBF2; /* Off-white */
-  --card-bg: #1B1B3A; /* Dark purple-blue */
-  --card-text: #E8EBF2; /* Off-white */
-  --primary-color: #7A7AFF; /* Neon purple */
-  --secondary-color: #38A3A5; /* Teal */
-  --accent-color: #C0C0D8; /* Light gray */
-  --icon-bg: #2B2B5A; /* Darker purple-blue */
-  --secondary-button-border: #C0C0D8; /* Light gray */
-  --secondary-button-text: #C0C0D8; /* Light gray */
-  --footer-bg: #1B1B3A; /* Dark purple-blue */
-  --footer-text: #E8EBF2; /* Off-white */
-  --hover-bg: #2C2C5A; /* Hover purple-blue */
-  --secondary-cta-hover: #1B1B3A;
+/* Dark Theme */
+[data-theme="dark"] {
+  --green-primary: #66bb6a;
+  --green-dark: #14532d;
+  --green-light: #22c55e;
+
+  --bg-color: #0b0f0e;
+  --bg-color-light: #111414; /* Slightly lighter than main dark bg for contrast */
+  --card-bg: #1c1f22;        /* Cards in dark theme */
+
+  --text-color: #f1f5f9;
+  --muted-text: #a1a1aa;
+
+  --accent-pink: #d98287;
+  --accent-pink-dark: #c96d75;
 }
 
-/* Apply the variables to the elements using Tailwind's @apply */
-.app-container {
-  @apply bg-[var(--app-bg)] text-[var(--app-text)];
-}
-
-.navbar {
-  @apply bg-[var(--card-bg)] text-[var(--card-text)];
-}
-
-.logo-icon {
-  @apply text-[var(--primary-color)];
-}
-
-.logo-text {
-  @apply text-[var(--card-text)];
-}
-
-.nav-link {
-  @apply text-[var(--app-text)] hover:text-[var(--primary-color)];
-}
-
-.cta-button {
-  @apply bg-[var(--primary-color)] text-white hover:bg-[var(--secondary-color)] transition-colors;
-}
-
-.theme-toggle-button {
-  @apply text-[var(--primary-color)] hover:bg-[var(--hover-bg)];
-}
-
-.mobile-menu {
-  @apply bg-[var(--card-bg)];
-}
-
-.mobile-nav-link {
-  @apply text-[var(--card-text)] hover:bg-[var(--app-bg)];
-}
-
-.hero-section {
-  @apply bg-[var(--card-bg)] text-[var(--card-text)];
-}
-
-.hero-title {
-  @apply text-[var(--card-text)];
-}
-
-.hero-text {
-  @apply text-[var(--accent-color)];
-}
-
-.cta-secondary-button {
-  @apply border border-[var(--secondary-button-border)] text-[var(--secondary-button-text)] hover:bg-[var(--secondary-cta-hover)] transition-colors;
-}
-
-.features-section {
-  @apply bg-[var(--app-bg)];
-}
-
-.features-title, .feature-title {
-  @apply text-[var(--app-text)];
-}
-
-.feature-card {
-  @apply bg-[var(--card-bg)] text-[var(--card-text)];
-}
-
-.icon-container {
-  @apply bg-[var(--icon-bg)];
-}
-
-.feature-icon {
-  @apply text-[var(--primary-color)];
-}
-
-.feature-text {
-  @apply text-[var(--accent-color)];
-}
-
-.footer {
-  @apply bg-[var(--footer-bg)] text-[var(--footer-text)];
+/* Base styling */
+body {
+  background-color: var(--bg-color-light);
+  color: var(--text-color);
+  font-family: "Inter", sans-serif;
 }

@@ -2,13 +2,18 @@
 import express from 'express';
 import { addFood, getMyListings, getFoodDetails } from './hotel.controller.js';
 import { protect } from '../../middlewares/auth.js'; // Path to the auth middleware
+import multer from 'multer';
 
 const router = express.Router();
 
-// All hotel routes require authentication
+// configure multer
+const storage = multer.memoryStorage(); // or diskStorage for saving locally
+const upload = multer({ storage });
+
 router.use(protect);
 
-router.post('/food/add', addFood);
+// Use upload.single('photo') for the image input
+router.post('/food/add', upload.single('photo'), addFood);
 router.get('/food/my-listings', getMyListings);
 router.get('/food/:id', getFoodDetails);
 
