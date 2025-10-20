@@ -54,8 +54,6 @@ export const getAIDecision = async (foodData) => {
       Price: foodData.Price,
     };
 
-    console.log("Sending payload to FastAPI:", payload);
-
     const response = await axios.post(FASTAPI_URL, payload);
     return response.data;
   } catch (err) {

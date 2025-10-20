@@ -19,7 +19,6 @@ export function AuthProvider({ children }) {
           setUser(data.user);
         }
       } catch (err) {
-        console.log("User not logged in");
         setUser(null);
         setToken(null);
       } finally {

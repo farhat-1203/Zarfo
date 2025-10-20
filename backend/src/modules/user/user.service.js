@@ -3,8 +3,6 @@ import Order from "../order/order.model.js";
 
 // Fetch available food for user feed
 export const getAvailableFood = async (filters = {}) => {
-  console.log("getAvailableFood called with filters:", filters);
-
   const now = new Date();
   const gracePeriod = new Date(now.getTime() - 12 * 60 * 60 * 1000); // 12h grace
 
@@ -19,13 +17,9 @@ export const getAvailableFood = async (filters = {}) => {
     query.category = { $regex: new RegExp(`^${filters.category}$`, "i") };
   }
 
-  console.log("Final Mongo query:", query);
-
   const foods = await Food.find(query)
     .populate({ path: "hotelId", select: "name", strictPopulate: false })
     .sort({ expiryTime: 1 });
-
-  console.log(`Returning ${foods.length} available food items`);
 
   return foods.map((f) => ({
     _id: f._id,
@@ -44,7 +38,6 @@ export const getAvailableFood = async (filters = {}) => {
 
 // Place order for a food item
 export const placeOrder = async (userId, foodId) => {
-  console.log("placeOrder called for user:", userId, "food:", foodId);
   const food = await Food.findById(foodId);
 
   if (!food || food.status !== "listed_for_sale" || !food.isAvailable) {

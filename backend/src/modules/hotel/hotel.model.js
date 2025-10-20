@@ -36,6 +36,10 @@ const foodSchema = new mongoose.Schema({
     type: Number,
     default: null, // Can be null for donations
   },
+  aiSuggestedPrice: {
+  type: Number,
+  default: null
+},
   status: {
     type: String,
     enum: ['listed_for_sale', 'listed_for_donation', 'sold', 'donated', 'wasted'],
