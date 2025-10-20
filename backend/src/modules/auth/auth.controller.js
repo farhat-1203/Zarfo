@@ -45,7 +45,7 @@ export const refreshToken = async (req, res) => {
     if (!user) return res.status(401).json({ error: "User not found" });
 
     const newAccessToken = generateAccessToken(user);
-    res.json({ accessToken: newAccessToken });
+    res.json({ accessToken: newAccessToken, user }); 
   } catch (err) {
     console.error(err);
     res.status(403).json({ error: "Invalid refresh token" });
